@@ -58,6 +58,9 @@
         "husky": "^8.0.0"
     },
     "lint-staged": {
-        "src/**/*.{js,html.css}": "npm run lint:fix"
+        "src/**/*.{js,html.css}": [
+            "npm run lint:fix",
+            "npm run prettier"
+        ]
     }
 }
