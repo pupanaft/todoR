@@ -6,11 +6,8 @@ import TaskList from '../task-list'
 import './app.css'
 
 export default class App extends Component {
-  static newId = 150
-
   constructor(props) {
     super(props)
-
     this.state = {
       todoData: [
         {
@@ -36,6 +33,7 @@ export default class App extends Component {
         },
       ],
       selectedFilter: 'All',
+      newId: 4,
     }
     this.toggleProperty = (id, propName, todoData) => {
       const idx = todoData.findIndex((el) => el.id === id)
@@ -87,15 +85,16 @@ export default class App extends Component {
     }
 
     this.onItemAdded = (value) => {
+      const { newId } = this.state
       this.setState((state) => {
         const item = {
           taskClass: '',
           description: value,
-          id: 1 + this.newId,
+          id: newId + 1,
           checked: false,
           date: new Date(),
         }
-        return { todoData: [...state.todoData, item] }
+        return { todoData: [...state.todoData, item], newId: [newId + 1] }
       })
     }
 
