@@ -12,21 +12,21 @@ export default class App extends Component {
       todoData: [
         {
           editing: false,
-          description: 'Completed task',
+          description: 'Completed',
           id: 1,
           checked: true,
           date: new Date(),
         },
         {
           editing: true,
-          description: 'Editing task',
+          description: 'Editing ',
           id: 2,
           checked: false,
           date: new Date(),
         },
         {
           editing: false,
-          description: 'Active task',
+          description: 'Active ',
           id: 3,
           checked: false,
           date: new Date(),
