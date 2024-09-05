@@ -5,15 +5,13 @@ export default function NewTaskForm({ onItemAdded }) {
   const [formData, setFormData] = useState({ label: '', min: '', sek: '' })
   const handleChange = (event) => {
     const { name, value } = event.target
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }))
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value > 60 ? 60 : value }))
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const { label, min, sek } = formData
     if (label && min && sek) {
-      //   const timeStamp = 1000 * sek + min * 60 * 1000
-      //   console.log(timeStamp)
       onItemAdded(label, parseInt(min, 10), parseInt(sek, 10))
       setFormData({ label: '', min: '', sek: '' })
     } else {
@@ -25,43 +23,6 @@ export default function NewTaskForm({ onItemAdded }) {
       handleSubmit(event)
     }
   }
-  //   constructor(props) {
-  //     super(props)
-  //     this.state = { label: '', min:'' , sek:''}
-  //     this.submitNewTodo = (e) => {
-  //       e.preventDefault()
-  //       const { onItemAdded } = this.props
-  //       const { label, min, sek } = this.state
-  //       if (label && min && sek) {
-  //         onItemAdded(label, min, sek)
-  //         this.setState({
-  //           label: '',
-  //           min: '',
-  //           sek: ''
-  //         })
-  //       } else {
-  //         // Можно добавить обработку ошибки, если не все поля заполнены
-  //         console.log('Please fill all fields')
-  //       }
-  //     }
-
-  //     this.addTodo = (e) => {
-  //       this.setState({
-  //         label: e.target.value,
-  //       })
-  //     }
-  //     this.addMin = (e) =>{
-  //       this.setState({
-  //         min: e.target.value,
-  //       })
-  //     }
-  //     this.addSek = (e) =>{
-  //       this.setState({
-  //         sek: e.target.value,
-  //       })
-  //     }
-  //   }
-
   return (
     <header className="header">
       <h1>todos</h1>
@@ -96,7 +57,6 @@ export default function NewTaskForm({ onItemAdded }) {
           id="sek"
           placeholder="sec"
         />
-        {/* <button onClick={this.submitNewTodo}type='button'>s</button> */}
       </form>
     </header>
   )
