@@ -14,22 +14,28 @@ export default class App extends Component {
           editing: false,
           description: 'Completed',
           id: 1,
+          time: { minute: 1, seconds: 20 },
           checked: true,
           date: new Date(),
+          //   timer:false,
         },
         {
           editing: true,
           description: 'Editing ',
           id: 2,
+          time: { minute: 1, seconds: 20 },
           checked: false,
           date: new Date(),
+          //   timer:false,
         },
         {
           editing: false,
           description: 'Active ',
           id: 3,
+          time: { minute: 1, seconds: 20 },
           checked: false,
           date: new Date(),
+          //   timer:false,
         },
       ],
       selectedFilter: 'All',
@@ -84,17 +90,17 @@ export default class App extends Component {
       })
     }
 
-    this.onItemAdded = (value) => {
+    this.onItemAdded = (description, min, sek) => {
       const { newId } = this.state
       this.setState((state) => {
         const item = {
-          taskClass: '',
-          description: value,
+          description,
+          time: { minute: min, seconds: sek },
           id: newId + 1,
           checked: false,
           date: new Date(),
         }
-        return { todoData: [...state.todoData, item], newId: [newId + 1] }
+        return { todoData: [...state.todoData, item], newId: newId + 1 }
       })
     }
 
@@ -125,6 +131,18 @@ export default class App extends Component {
         }
       })
     }
+    // this.changeTimer = (id) => {
+    //   this.setState((state) => {
+    //     const todoData = this.toggleProperty(id, 'timer', state.todoData)
+    //     return { todoData }
+    //   })
+    // }
+    // this.onTimerStart = () => {
+
+    // }
+    // this.timerOneTick = () =>{
+    //     if()
+    // }
   }
 
   render() {
@@ -136,6 +154,7 @@ export default class App extends Component {
         <NewTaskForm onItemAdded={this.onItemAdded} />
         <section className="main">
           <TaskList
+            // changeTimer={this.changeTimer}
             todos={visibleItem}
             onEditing={this.editingTask}
             onDeleted={this.onDeletedItem}

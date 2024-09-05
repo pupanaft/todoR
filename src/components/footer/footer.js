@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types'
-
 import TasksFilter from '../tasks-filter'
 import './footer.css'
 
@@ -13,17 +11,5 @@ function Footer({ itemLeft, selectedFilter, filterChange, clearCompleted }) {
       </button>
     </footer>
   )
-}
-Footer.defaultProps = {
-  selectedFilter: () => {},
-  filterChange: () => {},
-  itemLeft: 1,
-  clearCompleted: () => {},
-}
-Footer.propTypes = {
-  selectedFilter: PropTypes.func,
-  filterChange: PropTypes.func,
-  clearCompleted: PropTypes.func,
-  itemLeft: PropTypes.number,
 }
 export default Footer

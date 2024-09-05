@@ -1,9 +1,15 @@
-import PropTypes from 'prop-types'
-
 import Task from '../task'
 import './taskList.css'
 
-function TaskList({ todos, onDeleted, onToggle, onEditing, editTodo, submitEditTodo }) {
+function TaskList({
+  todos,
+  onDeleted,
+  onToggle,
+  onEditing,
+  editTodo,
+  submitEditTodo,
+  // changeTimer
+}) {
   const elementTodo = todos.map((item) => {
     const { id, editing, ...itemProps } = item
     if (editing) {
@@ -22,6 +28,8 @@ function TaskList({ todos, onDeleted, onToggle, onEditing, editTodo, submitEditT
     return (
       <li key={id} className="">
         <Task
+          //   changeTimer={() =>changeTimer(id)}
+          //   timer={item.timer}
           {...itemProps}
           onDeleted={() => onDeleted(id)}
           onToggle={() => onToggle(id)}
@@ -32,23 +40,5 @@ function TaskList({ todos, onDeleted, onToggle, onEditing, editTodo, submitEditT
     )
   })
   return <ul className="todo-list">{elementTodo}</ul>
-}
-TaskList.defaultProps = {
-  onDeleted: () => {},
-  onToggle: () => {},
-  onEditing: () => {},
-  todos: [],
-}
-TaskList.propTypes = {
-  onDeleted: PropTypes.func,
-  onToggle: PropTypes.func,
-  onEditing: PropTypes.func,
-  todos: PropTypes.shape({
-    editing: PropTypes.bool,
-    description: PropTypes.string,
-    id: PropTypes.number,
-    checked: PropTypes.bool,
-    date: PropTypes.number,
-  }),
 }
 export default TaskList
