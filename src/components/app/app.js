@@ -20,7 +20,7 @@ export default class App extends Component {
           //   timer:false,
         },
         {
-          editing: true,
+          editing: false,
           description: 'Editing ',
           id: 2,
           time: { minute: 1, seconds: 20 },
