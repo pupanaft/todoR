@@ -1,21 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './new-task-form.css'
 
 export default function NewTaskForm({ onItemAdded }) {
   const [formData, setFormData] = useState({ label: '', min: '', sek: '' })
+  const [warningForm, setWarningForm] = useState(false)
   const handleChange = (event) => {
     const { name, value } = event.target
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value > 60 ? 60 : value }))
   }
+  useEffect(() => {
+    if (warningForm) {
+      setTimeout(setWarningForm, 3000, false)
+    }
+  }, [warningForm])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const { label, min, sek } = formData
     if (label && min && sek) {
-      onItemAdded(label, parseInt(min, 10), parseInt(sek, 10))
+      const timeout = parseInt(min, 10) * 60 + parseInt(sek, 10)
+
+      onItemAdded(label, timeout)
       setFormData({ label: '', min: '', sek: '' })
     } else {
-      console.log('Please fill all fields')
+      setWarningForm(true)
     }
   }
   const enterDown = (event) => {
@@ -42,7 +50,7 @@ export default function NewTaskForm({ onItemAdded }) {
           onChange={handleChange}
           onKeyDown={enterDown}
           value={formData.min}
-          type="text"
+          type="number"
           name="min"
           id="min"
           placeholder="min"
@@ -52,12 +60,13 @@ export default function NewTaskForm({ onItemAdded }) {
           onChange={handleChange}
           onKeyDown={enterDown}
           value={formData.sek}
-          type="text"
+          type="number"
           name="sek"
           id="sek"
           placeholder="sec"
         />
       </form>
+      {warningForm ? <div className="new-todo__warning">Заполните все поля формы</div> : null}
     </header>
   )
 }

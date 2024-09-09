@@ -1,35 +1,36 @@
+import EditingTask from '../editing-task'
 import Task from '../task'
 import './taskList.css'
 
-function TaskList({
-  todos,
-  onDeleted,
-  onToggle,
-  onEditing,
-  editTodo,
-  submitEditTodo,
-  // changeTimer
-}) {
+function TaskList({ selectedFilter, todos, onDeleted, onToggle, onEditing, submitEditTodo }) {
   const elementTodo = todos.map((item) => {
+    let className = 'active'
+    switch (selectedFilter) {
+      case 'Active':
+        if (item.checked) className = 'unactive'
+        break
+      case 'Completed':
+        if (!item.checked) className = 'unactive'
+        break
+      default:
+        break
+    }
     const { id, editing, ...itemProps } = item
     if (editing) {
       return (
-        <li key={id} className="editing">
-          <input
-            type="text"
-            className="edit"
-            onKeyUp={(e) => submitEditTodo(e, id)}
-            onChange={(e) => editTodo(e, id)}
-            value={itemProps.description}
+        <li key={id} className={`editing ${className}`}>
+          <EditingTask
+            onEditing={onEditing}
+            submitEditTodo={submitEditTodo}
+            description={itemProps.description}
+            id={id}
           />
         </li>
       )
     }
     return (
-      <li key={id} className="">
+      <li key={id} className={className}>
         <Task
-          //   changeTimer={() =>changeTimer(id)}
-          //   timer={item.timer}
           {...itemProps}
           onDeleted={() => onDeleted(id)}
           onToggle={() => onToggle(id)}

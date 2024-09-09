@@ -59,6 +59,12 @@
             "error",
             "never"
         ],
+        "jsx-a11y/no-autofocus": [
+            0,
+            {
+                "ignoreNonDOM": true
+            }
+        ],
         "react/react-in-jsx-scope": "off",
         "react/prop-types": 0,
         "react/jsx-props-no-spreading": 0,

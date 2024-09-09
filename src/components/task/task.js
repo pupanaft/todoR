@@ -7,7 +7,7 @@ export default class Task extends Component {
     super(props)
     this.state = {
       timer: false,
-      secLeft: props.time.seconds + props.time.minute * 60,
+      secLeft: props.time,
     }
     this.changeTimer = () => {
       this.setState(({ timer }) => ({ timer: !timer }))
@@ -16,9 +16,9 @@ export default class Task extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { timer, secLeft } = this.state
-    if (timer) {
-      if (secLeft >= 0) this.timeout = setTimeout(() => this.setState((sesc) => ({ secLeft: sesc.secLeft - 1 })), 1000)
-    } else if (prevState.timer && this.timeout) clearTimeout(this.timeout)
+    if (timer && timer !== prevState.timer) {
+      if (secLeft >= 0) this.timeout = setInterval(() => this.setState((sesc) => ({ secLeft: sesc.secLeft - 1 })), 1000)
+    } else if (!prevState.timer) clearInterval(this.timeout)
   }
 
   render() {
@@ -27,7 +27,7 @@ export default class Task extends Component {
     const creationTime = formatDistanceToNow(date, { addSuffix: true })
     return (
       <div className="view">
-        <input className="toggle" type="checkbox" id={id} checked={checked} onClick={onToggle} />
+        <input className="toggle" type="checkbox" id={id} defaultChecked={checked} onClick={onToggle} />
         <label htmlFor={id}>
           <span className={checked ? 'checked' : 'description'}>{description}</span>
           <span className="view-stopwatch">

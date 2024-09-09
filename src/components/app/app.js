@@ -14,7 +14,7 @@ export default class App extends Component {
           editing: false,
           description: 'Completed',
           id: 1,
-          time: { minute: 1, seconds: 20 },
+          time: 60,
           checked: true,
           date: new Date(),
           //   timer:false,
@@ -23,7 +23,7 @@ export default class App extends Component {
           editing: false,
           description: 'Editing ',
           id: 2,
-          time: { minute: 1, seconds: 20 },
+          time: 20,
           checked: false,
           date: new Date(),
           //   timer:false,
@@ -32,7 +32,7 @@ export default class App extends Component {
           editing: false,
           description: 'Active ',
           id: 3,
-          time: { minute: 1, seconds: 20 },
+          time: 120,
           checked: false,
           date: new Date(),
           //   timer:false,
@@ -41,31 +41,26 @@ export default class App extends Component {
       selectedFilter: 'All',
       newId: 4,
     }
-    this.toggleProperty = (id, propName, todoData) => {
-      const idx = todoData.findIndex((el) => el.id === id)
-      const oldItem = todoData[idx]
-      const value = !oldItem[propName]
-      const newItem = { ...oldItem, [propName]: value }
-      return [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]
-    }
-    this.editTodo = (e, id) => {
+    this.toggleProperty = (id, propName, todoData) =>
+      todoData.map((el) => (el.id === id ? { ...el, [propName]: !el[propName] } : el))
+    // this.editTodo = (e, id) => {
+    //   this.setState(({ todoData }) => {
+    //     const idx = todoData.findIndex((el) => el.id === id)
+    //     const oldItem = todoData[idx]
+    //     const newItem = { ...oldItem, description: e.target.value }
+    //     const newArr = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]
+    //     return {
+    //       todoData: newArr,
+    //     }
+    //   })
+    // }
+    this.submitEditTodo = (newDescription, id) => {
       this.setState(({ todoData }) => {
-        const idx = todoData.findIndex((el) => el.id === id)
-        const oldItem = todoData[idx]
-        const newItem = { ...oldItem, description: e.target.value }
-        const newArr = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]
-        return {
-          todoData: newArr,
-        }
+        const newArr = todoData.map((el) =>
+          el.id === id ? { ...el, description: newDescription, editing: !el.editing } : el
+        )
+        return { todoData: newArr }
       })
-    }
-    this.submitEditTodo = (e, id) => {
-      if (e.keyCode === 13) {
-        this.setState((state) => {
-          const todoData = this.toggleProperty(id, 'editing', state.todoData)
-          return { todoData }
-        })
-      }
     }
     this.onDeletedItem = (id) => {
       this.setState(({ todoData }) => {
@@ -90,12 +85,12 @@ export default class App extends Component {
       })
     }
 
-    this.onItemAdded = (description, min, sek) => {
+    this.onItemAdded = (description, timeout) => {
       const { newId } = this.state
       this.setState((state) => {
         const item = {
           description,
-          time: { minute: min, seconds: sek },
+          time: timeout,
           id: newId + 1,
           checked: false,
           date: new Date(),
@@ -110,18 +105,13 @@ export default class App extends Component {
       }))
     }
 
-    this.activeFilter = (todoData, filter) => {
-      if (filter === 'All') {
-        return todoData
-      }
-      if (filter === 'Active') {
-        return todoData.filter((item) => !item.checked)
-      }
-      if (filter === 'Completed') {
-        return todoData.filter((item) => item.checked)
-      }
-      return false
-    }
+    // this.activeFilter = (todoData, filter) => {
+    //   switch (filter){
+    //   case 'Active' : return todoData.filter((item) => !item.checked)
+    //   case 'Completed' : return todoData.filter((item) => item.checked)
+    //   default: return todoData
+    //   }
+    // }
 
     this.clearCompleted = () => {
       this.setState(({ todoData }) => {
@@ -148,19 +138,21 @@ export default class App extends Component {
   render() {
     const { todoData, selectedFilter } = this.state
     const itemLeft = todoData.filter((item) => !item.checked).length
-    const visibleItem = this.activeFilter(todoData, selectedFilter)
+
     return (
       <section className="todoapp">
         <NewTaskForm onItemAdded={this.onItemAdded} />
         <section className="main">
           <TaskList
+            selectedFilter={selectedFilter}
             // changeTimer={this.changeTimer}
-            todos={visibleItem}
+            todos={todoData}
             onEditing={this.editingTask}
             onDeleted={this.onDeletedItem}
             onToggle={this.onToggleDone}
-            editTodo={this.editTodo}
             submitEditTodo={this.submitEditTodo}
+            // editTodo={this.editTodo}
+            // submitEditTodo={this.submitEditTodo}
           />
           <Footer
             selectedFilter={selectedFilter}
