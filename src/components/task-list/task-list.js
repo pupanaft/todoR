@@ -5,15 +5,13 @@ import './taskList.css'
 function TaskList({ selectedFilter, todos, onDeleted, onToggle, onEditing, submitEditTodo }) {
   const elementTodo = todos.map((item) => {
     let className = 'active'
-    switch (selectedFilter) {
-      case 'Active':
-        if (item.checked) className = 'unactive'
-        break
-      case 'Completed':
-        if (!item.checked) className = 'unactive'
-        break
-      default:
-        break
+
+    if (selectedFilter === 'Active' && !item.checked) {
+      className = 'active'
+    } else if (selectedFilter === 'Completed' && item.checked) {
+      className = 'active'
+    } else if (selectedFilter === 'All') {
+      className = 'active'
     }
     const { id, editing, ...itemProps } = item
     if (editing) {
