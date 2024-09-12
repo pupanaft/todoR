@@ -46,12 +46,3 @@ export default class Task extends Component {
     )
   }
 }
-
-/// import styles from "./task.css"
-/// {styles["view"]
-/// { styles[ checked ? "checked" : "description" ] }
-/// {`${styles["icon"]} ${styles["icon-edit"]}`}
-
-// this.setState({
-//     ...this.state, secLeft:this.state.secLeft-1
-// })

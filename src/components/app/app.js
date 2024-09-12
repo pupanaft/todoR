@@ -17,7 +17,6 @@ export default class App extends Component {
           time: 60,
           checked: true,
           date: new Date(),
-          //   timer:false,
         },
         {
           editing: false,
@@ -26,7 +25,6 @@ export default class App extends Component {
           time: 20,
           checked: false,
           date: new Date(),
-          //   timer:false,
         },
         {
           editing: false,
@@ -35,7 +33,6 @@ export default class App extends Component {
           time: 120,
           checked: false,
           date: new Date(),
-          //   timer:false,
         },
       ],
       selectedFilter: 'All',
@@ -43,17 +40,6 @@ export default class App extends Component {
     }
     this.toggleProperty = (id, propName, todoData) =>
       todoData.map((el) => (el.id === id ? { ...el, [propName]: !el[propName] } : el))
-    // this.editTodo = (e, id) => {
-    //   this.setState(({ todoData }) => {
-    //     const idx = todoData.findIndex((el) => el.id === id)
-    //     const oldItem = todoData[idx]
-    //     const newItem = { ...oldItem, description: e.target.value }
-    //     const newArr = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]
-    //     return {
-    //       todoData: newArr,
-    //     }
-    //   })
-    // }
     this.submitEditTodo = (newDescription, id) => {
       this.setState(({ todoData }) => {
         const newArr = todoData.map((el) =>
@@ -104,15 +90,6 @@ export default class App extends Component {
         selectedFilter: newFilter,
       }))
     }
-
-    // this.activeFilter = (todoData, filter) => {
-    //   switch (filter){
-    //   case 'Active' : return todoData.filter((item) => !item.checked)
-    //   case 'Completed' : return todoData.filter((item) => item.checked)
-    //   default: return todoData
-    //   }
-    // }
-
     this.clearCompleted = () => {
       this.setState(({ todoData }) => {
         const newArr = todoData.filter((el) => !el.checked)
@@ -121,18 +98,6 @@ export default class App extends Component {
         }
       })
     }
-    // this.changeTimer = (id) => {
-    //   this.setState((state) => {
-    //     const todoData = this.toggleProperty(id, 'timer', state.todoData)
-    //     return { todoData }
-    //   })
-    // }
-    // this.onTimerStart = () => {
-
-    // }
-    // this.timerOneTick = () =>{
-    //     if()
-    // }
   }
 
   render() {
@@ -145,14 +110,11 @@ export default class App extends Component {
         <section className="main">
           <TaskList
             selectedFilter={selectedFilter}
-            // changeTimer={this.changeTimer}
             todos={todoData}
             onEditing={this.editingTask}
             onDeleted={this.onDeletedItem}
             onToggle={this.onToggleDone}
             submitEditTodo={this.submitEditTodo}
-            // editTodo={this.editTodo}
-            // submitEditTodo={this.submitEditTodo}
           />
           <Footer
             selectedFilter={selectedFilter}

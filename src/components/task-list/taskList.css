@@ -22,3 +22,7 @@
 .inactive {
     display: none;
 }
+
+.Active {
+    display: block;
+}
